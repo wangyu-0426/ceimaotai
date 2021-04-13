@@ -1,0 +1,309 @@
+<!--本游戏包含的所有内容（包括但不限于：代码、图片、视像及声音内容、名称）的所有权归北京米兜科技有限公司所有。
+任何单位或个人将本游戏提供的内容与服务用于商业、盈利、广告性等目的时，需征得北京米兜科技有限公司相关权利人的书
+面许可；将本网站提供的内容与服务用于非商业用途时，应遵守著作权法以及其他相关法律的规定，不得侵犯游戏所有者及相
+关权利人的权益。-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>打地鼠</title>
+    <!--<link rel="icon" type="image/GIF" href="res/favicon.ico"/>-->
+
+    <meta
+      name="viewport"
+      content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,target-densitydpi=device-dpi"
+    />
+
+    <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- force webkit on 360 -->
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <!-- force edge on IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- force full screen on some browser -->
+    <meta name="full-screen" content="yes" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+
+    <!-- <script> -->
+    <!-- pushHistory(); -->
+    <!-- window.addEventListener("popstate", function(e) { -->
+
+    <!-- }, false); -->
+    <!-- function pushHistory() { -->
+    <!-- var state = { -->
+    <!-- title: "", -->
+    <!-- url: window.location.href -->
+    <!-- }; -->
+    <!-- window.history.pushState(state, state.title, state.url); -->
+    <!-- } -->
+    <!-- </script> -->
+
+    <!-- force screen orientation on some browser -->
+    <!-- <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-orientation" content="portrait"> -->
+
+    <meta name="browsermode" content="application" />
+    <meta name="x5-page-mode" content="app" />
+
+    <style type="text/css">
+      html {
+        -ms-touch-action: none;
+      }
+
+      body,
+      canvas,
+      div {
+        margin: 0;
+        padding: 0;
+        outline: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -khtml-user-select: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+      .test {
+        background: #f99f0a;
+        width: 0px;
+        height: 3px;
+        transition: all 16s linear 0s;
+        -moz-transition: all 16s linear 0s;
+        -webkit-transition: all 16s linear 0s;
+        -o-transition: all 16s linear 0s;
+      }
+      #parent {
+        z-index: 1000;
+        opacity: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border: 1px solid silver;
+        background: white;
+        width: 100%;
+      }
+    </style>
+    <style>
+      .adslot_1 {
+        display: inline-block;
+        width: 320px;
+        height: 50px;
+      }
+      @media (min-width: 500px) {
+        .adslot_1 {
+          width: 468px;
+          height: 60px;
+        }
+      }
+      @media (min-width: 800px) {
+        .adslot_1 {
+          width: 728px;
+          height: 90px;
+        }
+      }
+    </style>
+  </head>
+
+  <body style="padding: 0; margin: 0; background: #ddd" align="center">
+    <div style="align: center; display: none">
+      <img src="res/game/share.png" width="10%" />
+    </div>
+    <div id="loadingImg" style="top: 35%; width: 100%; position: absolute">
+      <div id="logoImg" style="align: center; display: none"></div>
+      <div style="margin-top: 10%">
+        <img src="res/loading.gif" width="7%" height="7%" />
+      </div>
+    </div>
+
+    <div id="canvasDiv" style="height: 500px; position: relative">
+      <!-- <a
+        href="https://play.google.com/store/apps/details?id=org.cocos2d.MD_WhackAMole"
+        ><img
+          id="headimg"
+          src="./res/ko-kr.png"
+          style="
+            width: 100%;
+            position: absolute;
+            top: -128px;
+            left: 0px;
+            z-index: 99999;
+          "
+      /></a> -->
+
+      <canvas id="gameCanvas" width="720" height="1280"></canvas>
+      <!-- <div id="parent">
+        <div id="div" class="test"></div>
+      </div> -->
+    </div>
+    <!-- 
+    <script
+      async
+      data-ad-client="ca-pub-3932234672445376"
+      data-ad-channel="6562479700"
+      data-ad-frequency-hint="30s"
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script> -->
+
+    <!-- <script>
+      window.adsbygoogle = window.adsbygoogle || [];
+      const adBreak = function (o) {
+        adsbygoogle.push(o);
+      };
+    </script> -->
+
+    <script>
+      function downPic() {
+        if (lanHanBool && !IOS_FLAG) {
+          var left_yd = document.getElementById("headimg");
+          if (left_yd.style.top == "0px") {
+            return;
+          }
+          times = setInterval(function () {
+            left_yd.style.top = left_yd.offsetTop + 2 + "px";
+            console.log(left_yd.style.top);
+            if (left_yd.style.top == "0px") {
+              clearInterval(times);
+            }
+          }, 1);
+        }
+      }
+      function upPic() {
+        if (lanHanBool && !IOS_FLAG) {
+          var left_yd = document.getElementById("headimg");
+          if (left_yd.style.top == "-128px") {
+            return;
+          }
+          times = setInterval(function () {
+            left_yd.style.top = left_yd.offsetTop - 2 + "px";
+            console.log(left_yd.style.top);
+            if (left_yd.style.top == "-128px") {
+              clearInterval(times);
+            }
+          }, 1);
+        }
+      }
+
+      var preloader;
+      var adCompleteFlag = false;
+      var resCompleteFlag = false;
+
+      var adEndComplete = false;
+      var resEndComplete = false;
+      var lanHanBool = true;
+
+      //     judgeLanTitle();
+      //     function judgeLanTitle(){
+      // //        console.log("window.navigator.language",window.navigator.language);
+      //           if( window.navigator.language=="zh-CN" ||window.navigator.language=="zh-cn"){
+      //             document.title = "打地鼠";
+      // 			lanHanBool = false;
+      //         }else  if(window.navigator.language == "zh-TW" || window.navigator.language == "zh-HK"  ){
+      //             document.title = "打地鼠";
+      // 			 document.getElementById("headimg").src="./res/zh-tw.png";
+      //         }else  if(window.navigator.language == "ko-KR"){
+      //             document.title = "두더기";
+      // 			document.getElementById("headimg").src="./res/ko-kr.png";
+      //         }else  if(window.navigator.language == "ja-JP"){
+      //             document.title = "打たれるネズミ";
+      // 			document.getElementById("headimg").src="./res/en.png";
+      //         }else  if(window.navigator.language == "th-TH"){
+      //             document.title = "ตีตัวตุ่น";
+      // 			document.getElementById("headimg").src="./res/en.png";
+      //         }else{
+      // 		  document.getElementById("headimg").src="./res/en.png";
+      //             document.title = "Whac-A-Mole";
+      //         }
+      //     }
+
+      var IOS_FLAG = false;
+      var TwitterFlag = false;
+      var FaceBookFlag = false;
+      autodivheight();
+      function autodivheight() {
+        var winHeight = 0;
+        if (window.innerHeight) winHeight = window.innerHeight;
+        else if (document.body && document.body.clientHeight)
+          winHeight = document.body.clientHeight;
+        //通过深入Document内部对body进行检测，获取浏览器窗口高度
+        if (document.documentElement && document.documentElement.clientHeight)
+          winHeight = document.documentElement.clientHeight;
+        var currHeight = winHeight * 0.87;
+        //判断是否在twitter或facebook打开
+        var agent = navigator.userAgent.toLowerCase();
+        if (agent.indexOf("twitter") > 0) {
+          TwitterFlag = true;
+        }
+        if (agent.indexOf("fbav") > 0) {
+          FaceBookFlag = true;
+        }
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+          IOS_FLAG = true;
+        }
+        if (IOS_FLAG && (FaceBookFlag || TwitterFlag)) {
+          if (agent.indexOf("messenger") == -1) {
+            currHeight = currHeight - 107;
+          }
+        }
+        document.getElementById("canvasDiv").style.height = currHeight + "px";
+      }
+      window.onresize = autodivheight;
+    </script>
+    <!-- <div align="center" style="font-size: 10px; color: dimgrey">
+      advertisement
+    </div> -->
+
+    <!-- <video id="contentElement" style = "display:none">
+          <source src="http://rmcdn.2mdn.net/Demo/vast_inspector/android.mp4"></source>
+          <source src="http://rmcdn.2mdn.net/Demo/vast_inspector/android.webm"></source>
+</video> -->
+    <!-- <div
+      id="adContainer"
+      style="
+        display: none;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 87%;
+        z-index: 999;
+      "
+    ></div> -->
+
+    <!-- <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script> -->
+    <!-- <script type="text/javascript" src="ads.js"></script> -->
+
+    <script src="res/sys.min.js"></script>
+
+    <script cocos src="game.min.js"></script>
+
+    <!-- <script
+      async
+      src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script> -->
+    <!-- 筋斗云 -->
+    <!-- <ins
+      class="adsbygoogle"
+      style="
+        display: inline-block;
+        min-width: 320px;
+        max-width: 970px;
+        width: 100%;
+        height: 60px;
+      "
+      data-ad-client="ca-pub-3932234672445376"
+      data-ad-slot="9335805093"
+    ></ins> -->
+    <!-- <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script> -->
+  </body>
+</html>
