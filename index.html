@@ -125,19 +125,18 @@
     </div>
 
     <div id="canvasDiv" style="height: 500px; position: relative">
-      <!-- <a
-        href="https://play.google.com/store/apps/details?id=org.cocos2d.MD_WhackAMole"
-        ><img
-          id="headimg"
-          src="./res/ko-kr.png"
-          style="
-            width: 100%;
-            position: absolute;
-            top: -128px;
-            left: 0px;
-            z-index: 99999;
-          "
-      /></a> -->
+      <!-- <img
+        id="headimg"
+        src="./res/ko-kr.png"
+        style="
+          width: 100%;
+          position: absolute;
+          top: -128px;
+          left: 0px;
+          z-index: 99999;
+          display: none;
+        "
+      /> -->
 
       <canvas id="gameCanvas" width="720" height="1280"></canvas>
       <!-- <div id="parent">
@@ -161,36 +160,36 @@
     </script> -->
 
     <script>
-      function downPic() {
-        if (lanHanBool && !IOS_FLAG) {
-          var left_yd = document.getElementById("headimg");
-          if (left_yd.style.top == "0px") {
-            return;
-          }
-          times = setInterval(function () {
-            left_yd.style.top = left_yd.offsetTop + 2 + "px";
-            console.log(left_yd.style.top);
-            if (left_yd.style.top == "0px") {
-              clearInterval(times);
-            }
-          }, 1);
-        }
-      }
-      function upPic() {
-        if (lanHanBool && !IOS_FLAG) {
-          var left_yd = document.getElementById("headimg");
-          if (left_yd.style.top == "-128px") {
-            return;
-          }
-          times = setInterval(function () {
-            left_yd.style.top = left_yd.offsetTop - 2 + "px";
-            console.log(left_yd.style.top);
-            if (left_yd.style.top == "-128px") {
-              clearInterval(times);
-            }
-          }, 1);
-        }
-      }
+      // function downPic() {
+      //   if (lanHanBool && !IOS_FLAG) {
+      //     var left_yd = document.getElementById("headimg");
+      //     // if (left_yd.style.top == "0px") {
+      //     //   return;
+      //     // }
+      //     times = setInterval(function () {
+      //       left_yd.style.top = left_yd.offsetTop + 2 + "px";
+      //       console.log(left_yd.style.top);
+      //       if (left_yd.style.top == "0px") {
+      //         clearInterval(times);
+      //       }
+      //     }, 1);
+      //   }
+      // }
+      // function upPic() {
+      //   if (lanHanBool && !IOS_FLAG) {
+      //     var left_yd = document.getElementById("headimg");
+      //     if (left_yd.style.top == "-128px") {
+      //       return;
+      //     }
+      //     times = setInterval(function () {
+      //       left_yd.style.top = left_yd.offsetTop - 2 + "px";
+      //       console.log(left_yd.style.top);
+      //       if (left_yd.style.top == "-128px") {
+      //         clearInterval(times);
+      //       }
+      //     }, 1);
+      //   }
+      // }
 
       var preloader;
       var adCompleteFlag = false;
